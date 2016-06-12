@@ -2,7 +2,7 @@
 
 [![GoDoc](https://godoc.org/github.com/lysu/detect-block?status.svg)](https://godoc.org/github.com/lysu/detect-block)
 
-Detect tool help us find blocked Goroutines and Codeline easier.
+Detect tool helps us finding blocked Goroutines and Codeline easier.
 
 ### Getting started
 
