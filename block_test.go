@@ -2,11 +2,9 @@ package block
 
 import (
 	"fmt"
-	//"sync"
+	"sync"
 	"testing"
 	"time"
-	//"sync"
-	"sync"
 )
 
 type testReporter struct {
