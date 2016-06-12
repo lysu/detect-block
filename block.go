@@ -1,12 +1,11 @@
-// Copyright 2016 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
 // Package blocktest provides tools to detect blocked goroutines in tests.
+//
 // It want to solve problem that we know some function is not running and we guess it blocked,
 // But we have no idea which Goroutine and CodeLine blocked
 // `block/goroutine tool` in `http/pprof` are nice tools, but there are too many Goroutines output
 // and it's very hard to find real block one, so this tool want to help u find them easier~
-// inspired by fortytw2/leaktest, but this is detect block not leak..- -
+//
+// Inspired by fortytw2/leaktest, but this is detect block not leak..- -
 package block
 
 import (
