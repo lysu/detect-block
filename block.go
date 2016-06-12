@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 // Package blocktest provides tools to detect blocked goroutines in tests.
-// To use it, call "defer block.Check(t)()" at the beginning of each
 package block
 
 import (
@@ -52,25 +51,24 @@ type ErrorReporter interface {
 // Check snapshots the currently-running goroutines and returns a
 // function to be run at the end of tests to see whether any
 // goroutines blocked.
-func Check(t ErrorReporter, interval time.Duration, ignorePrefix string) func() {
-	return func() {
-		orig := map[string]bool{}
-		for _, g := range interestingGoroutines(ignorePrefix) {
-			orig[g] = true
+func Check(t ErrorReporter, interval time.Duration, ignorePrefix string) {
+	orig := map[string]bool{}
+	for _, g := range interestingGoroutines(ignorePrefix) {
+		orig[g] = true
+	}
+	time.Sleep(interval)
+	var block []string
+	for _, g := range interestingGoroutines(ignorePrefix) {
+		xg := g
+		if orig[g] {
+			block = append(block, xg)
 		}
-		time.Sleep(interval)
-		var block []string
-		for _, g := range interestingGoroutines(ignorePrefix) {
-			if orig[g] {
-				block = append(block, g)
-			}
-		}
-		if len(block) == 0 {
-			return
-		}
-		for _, g := range block {
-			t.Errorf("Blocked goroutine: %v", g)
-		}
+	}
+	if len(block) == 0 {
 		return
 	}
+	for _, g := range block {
+		t.Errorf("Blocked goroutine: %v", g)
+	}
+	return
 }
