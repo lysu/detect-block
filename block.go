@@ -1,4 +1,4 @@
-// Package blocktest provides tools to detect blocked goroutines in tests.
+// Package block provides tools to detect blocked goroutines in tests.
 //
 // It want to solve problem that we know some function is not running and we guess it blocked,
 // But we have no idea which Goroutine and CodeLine blocked
