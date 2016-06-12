@@ -2,6 +2,7 @@ package block
 
 import (
 	"fmt"
+	"log"
 	"sync"
 	"testing"
 	"time"
@@ -74,4 +75,22 @@ func TestCheck(t *testing.T) {
 		t.Errorf("didn't catch sleeping goroutine")
 	}
 	t.Log(checker.msg, "++++")
+}
+
+type Logger struct {
+}
+
+func (_ *Logger) Errorf(format string, args ...interface{}) {
+	log.Printf(format, args...)
+}
+
+// This example show how to detect block in product env
+// In web system, please take this code snippet, and export them as internal http api.
+// In task like system, export them as signal handle and run it in standalone goroutine.
+// Maybe it's useful to find some yuck problem~
+func Example_DetectBlock() {
+	logger := &Logger{}              // Logger used by your project
+	checkInterval := 5 * time.Second // Check interval, we recommend pass this param from api
+	ignorePrefix := ""               // Goroutine Prefix that will be ignored, e.g. `endpoint.CheckBlock`
+	Check(logger, checkInterval, ignorePrefix)
 }
